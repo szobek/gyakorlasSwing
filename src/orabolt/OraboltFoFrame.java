@@ -1,7 +1,9 @@
 package orabolt;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -39,6 +41,7 @@ public class OraboltFoFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Image img = new ImageIcon(this.getClass().getResource("/a.png")).getImage();
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -55,6 +58,7 @@ public class OraboltFoFrame {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setTitle("Órabolt");
+		frame.setIconImage(img);
 	}
 
 }
