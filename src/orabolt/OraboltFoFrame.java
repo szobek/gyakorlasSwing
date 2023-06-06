@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Color;
 
 public class OraboltFoFrame {
 
@@ -43,6 +44,8 @@ public class OraboltFoFrame {
 	private void initialize() {
 		Image img = new ImageIcon(this.getClass().getResource("/a.png")).getImage();
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 204, 204));
+		frame.getContentPane().setForeground(new Color(0, 0, 102));
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -59,6 +62,7 @@ public class OraboltFoFrame {
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setTitle("Órabolt");
 		frame.setIconImage(img);
+		frame.getContentPane().setLayout(null);
 	}
 
 }
