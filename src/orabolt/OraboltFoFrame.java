@@ -3,12 +3,16 @@ package orabolt;
 import java.awt.EventQueue;
 import java.awt.Image;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -23,8 +27,13 @@ public class OraboltFoFrame {
 
 	private JFrame frame;
 	private JTextField txtMegnevezes;
-	private JList lstOraAdatok;
+	private JList<Ora> lstOraAdatok;
 	private JTable tblOraAdatok;
+
+	private List<Ora> orak;
+	private DefaultListModel<Ora> listModel;
+	private Ora ora;
+
 
 	/**
 	 * Launch the application.
@@ -110,9 +119,21 @@ public class OraboltFoFrame {
 		chbVizallo.setBounds(131, 197, 97, 23);
 		frame.getContentPane().add(chbVizallo);
 		
+		
+		orak = new ArrayList<Ora>(); //adatok tárolása
+		listModel = new DefaultListModel<Ora>(); // eszköz a JListbe íráshoz
+
+		ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
+		orak.add(ora);
+		listModel.addElement(ora);
+
+		
 		lstOraAdatok = new JList();
 		lstOraAdatok.setBounds(356, 58, 296, 157);
 		frame.getContentPane().add(lstOraAdatok);
+		
+		lstOraAdatok.setModel(listModel);
+
 		
 		tblOraAdatok = new JTable();
 		tblOraAdatok.setBounds(360, 260, 292, 169);
