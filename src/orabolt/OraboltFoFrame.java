@@ -50,10 +50,10 @@ public class OraboltFoFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				String[] valaszok = { "Igen", "Nem" };
-				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kilép?", "Kilépés", JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kilép?", "Kilépés", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
 
 					System.exit(0);
+					
 
 				}
 			}
