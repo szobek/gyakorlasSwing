@@ -42,7 +42,7 @@ public class OraboltFoFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		Image img = new ImageIcon(this.getClass().getResource("/a.png")).getImage();
+		Image img = new ImageIcon(this.getClass().getResource("/frame_icon.png")).getImage();
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(102, 204, 204));
 		frame.getContentPane().setForeground(new Color(0, 0, 102));
