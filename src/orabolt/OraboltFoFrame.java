@@ -58,7 +58,7 @@ public class OraboltFoFrame {
 				}
 			}
 		});
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 830, 425);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setTitle("Órabolt");
 		frame.setIconImage(img);
