@@ -59,7 +59,7 @@ public class OraboltFoFrame {
 	 */
 	public OraboltFoFrame() {
 		initialize();
-		DbHandle.all();
+		DbHandle.getDataFromWatch(1);;
 	}
 
 	/**

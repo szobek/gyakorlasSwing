@@ -2,11 +2,13 @@ package orabolt;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
+
 
 
 
@@ -37,6 +39,50 @@ public class DbHandle {
 			System.out.println("Csatlakozva");
 			while(rs.next()) {
 				System.out.println(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Lekér olcsó óákat,amik olcsóbbak mint a paraméterben átadott
+	 * @param ar
+	 */
+	public static void justCheap(int ar) {
+		Connection conn = connect();
+		try {
+			PreparedStatement query = conn.prepareStatement("select * from orak where ar<?");
+			query.setInt(1, ar);
+			ResultSet res=query.executeQuery();
+			while (res.next()) {
+				System.out.println(res.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void getByString(String sql) {
+		Connection conn = connect();
+		try {
+			PreparedStatement query = conn.prepareStatement(sql);
+			ResultSet res=query.executeQuery();
+			while (res.next()) {
+				System.out.println(res.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void getDataFromWatch(int id) {
+		Connection conn = connect();
+		try {
+			PreparedStatement query = conn.prepareStatement("select * from orak where id=?");
+			query.setInt(1, id);
+			ResultSet res=query.executeQuery();
+			while (res.next()) {
+				System.out.println(res.getString("name")+" | "+res.getInt("ar")+"Ft | "+(res.getBoolean("vizallo")?"Vízálló":"Nem vízálló"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
