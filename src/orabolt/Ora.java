@@ -14,6 +14,11 @@ public class Ora {
 		this.vizallo = vizallo;
 	}
 
+	@Override
+	public String toString() {
+		return megnevezes + " " + tipus + " " + ar + " " + (vizallo?"vízálló":"nem vízálló");
+	}
+
 	public String getMegnevezes() {
 		return megnevezes;
 	}
