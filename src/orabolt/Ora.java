@@ -33,5 +33,12 @@ public class Ora {
 	public boolean isVizallo() {
 		return vizallo;
 	}
+
+	@Override
+	public String toString() {
+		return  megnevezes ;
+	}
+	
+	
 	
 }
