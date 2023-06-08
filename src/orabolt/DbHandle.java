@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -87,5 +88,21 @@ public class DbHandle {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static List<Ora> synchronAfterSave(List<Ora> lista) {
+		Connection conn = connect();
+		Statement stmt;
+		try {
+			PreparedStatement query = conn.prepareStatement("select * from orak");
+			ResultSet rs=query.executeQuery();
+			lista.clear();
+			while(rs.next()) {
+				lista.add(new Ora(rs.getString("name"),OraTipusok.convertToEnum(rs.getString("tipus")),rs.getInt("ar"),rs.getBoolean("vizallo")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
 	}
 }

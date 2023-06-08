@@ -59,6 +59,7 @@ public class OraboltFoFrame {
 	 */
 	public OraboltFoFrame() {
 		initialize();
+		System.out.println(DbHandle.synchronAfterSave(orak));
 		DbHandle.getDataFromWatch(1);;
 	}
 
