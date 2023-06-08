@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -33,6 +34,9 @@ public class OraboltFoFrame {
 	private List<Ora> orak;
 	private DefaultListModel<Ora> listModel;
 	private Ora ora;
+	
+	private DefaultTableModel tablaModel;
+
 
 
 	/**
@@ -122,22 +126,32 @@ public class OraboltFoFrame {
 		
 		orak = new ArrayList<Ora>(); //adatok tárolása
 		listModel = new DefaultListModel<Ora>(); // eszköz a JListbe íráshoz
+		
 
 		ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
 		orak.add(ora);
-		listModel.addElement(ora);
-
+			
 		
 		lstOraAdatok = new JList();
 		lstOraAdatok.setBounds(356, 58, 296, 157);
 		frame.getContentPane().add(lstOraAdatok);
 		
+		listModel.addElement(ora);
 		lstOraAdatok.setModel(listModel);
 
 		
 		tblOraAdatok = new JTable();
 		tblOraAdatok.setBounds(360, 260, 292, 169);
 		frame.getContentPane().add(tblOraAdatok);
+		
+		//beszúrás a táblázat getRowCount()-adik sorába
+		String[] oszlopnevek = {"Megnevezés","Típus","Ár", "VÍzállóság"};
+		tablaModel = new DefaultTableModel(null,oszlopnevek);
+
+		Object[] adatok = new Object[] { ora.getMegnevezes(), ora.getTipus(), ora.getAr(), ora.isVizallo()};
+		tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
+		tblOraAdatok.setModel(tablaModel);
+
 		
 		JButton btnUjAdat = new JButton("\u00DAj adat felvitele");
 		btnUjAdat.setBounds(128, 260, 142, 23);
