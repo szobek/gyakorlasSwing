@@ -22,6 +22,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class OraboltFoFrame {
@@ -34,6 +37,7 @@ public class OraboltFoFrame {
 	private List<Ora> orak;
 	private DefaultListModel<Ora> listModel;
 	private Ora ora;
+	private JButton btnFilter;
 
 
 
@@ -69,6 +73,7 @@ public class OraboltFoFrame {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
 			orak.add(ora);
 		}
+		
 		initialize();
 	}
 
@@ -162,5 +167,16 @@ orak.clear();
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_2.setBounds(356, 235, 296, 14);
 		frame.getContentPane().add(lblNewLabel_1_2);
+		
+		btnFilter = new JButton("Sz\u0171r\u00E9s");
+		btnFilter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Ora> szurt = orak.stream().filter((x)->x.getAr()<100000).toList();
+				System.out.println(szurt);
+			}
+		});
+		btnFilter.setForeground(new Color(0, 102, 51));
+		btnFilter.setBounds(10, 427, 89, 23);
+		frame.getContentPane().add(btnFilter);
 	}
 }
