@@ -1,5 +1,10 @@
 package orabolt;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
+
 public class Ora {
 	private String megnevezes;
 	private OraTipusok tipus;
@@ -44,7 +49,7 @@ public class Ora {
 
 	@Override
 	public String toString() {
-		return  megnevezes + " "+ ar + " " +tipus.toString() ;
+		return  megnevezes + " "+ ar + "Ft " +tipus.toString() ;
 	}
 	
 	
