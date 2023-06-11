@@ -38,6 +38,7 @@ public class OraboltFoFrame {
 	private DefaultListModel<Ora> listModel;
 	private Ora ora;
 	private JButton btnFilter;
+	private JButton btnFirstElemDataShow;
 
 
 
@@ -178,5 +179,15 @@ orak.clear();
 		btnFilter.setForeground(new Color(0, 102, 51));
 		btnFilter.setBounds(10, 427, 89, 23);
 		frame.getContentPane().add(btnFilter);
+		
+		btnFirstElemDataShow = new JButton("Els\u0151 elem adata");
+		btnFirstElemDataShow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Ora data=orak.get(0);
+				JOptionPane.showMessageDialog(frame, data.toString());
+			}
+		});
+		btnFirstElemDataShow.setBounds(139, 427, 142, 23);
+		frame.getContentPane().add(btnFirstElemDataShow);
 	}
 }
