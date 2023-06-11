@@ -168,7 +168,7 @@ orak.clear();
 		lblNewLabel_1_2.setBounds(356, 235, 296, 14);
 		frame.getContentPane().add(lblNewLabel_1_2);
 		
-		btnFilter = new JButton("Sz\u0171r\u00E9s");
+		btnFilter = new JButton("Sz\u0171r\u00E9s (olcv\u00F3bb mint 100000)");
 		btnFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<Ora> szurt = orak.stream().filter((x)->x.getAr()<100000).toList();
