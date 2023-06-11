@@ -184,7 +184,7 @@ orak.clear();
 		btnFirstElemDataShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Ora data=orak.get(0);
-				JOptionPane.showMessageDialog(frame, data.toString());
+				JOptionPane.showMessageDialog(frame, data.toString(),"Adatok",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnFirstElemDataShow.setBounds(139, 427, 142, 23);
