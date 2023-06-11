@@ -1,9 +1,13 @@
 package orabolt;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
+
 
 public class FileHandle {
 
@@ -18,6 +22,20 @@ public class FileHandle {
 		} catch (IOException  e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static void readFile(List<Ora> lista) {
+		String file = "orak.txt";
+		String delimiter = ";";
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"))){
+
+			
+			while (br.ready()) {
+				lista.add(new Ora(br.readLine().split(delimiter)));
+			}
+			
+		} catch(IOException e) {}
 		
 	}
 }

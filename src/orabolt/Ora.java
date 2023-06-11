@@ -13,6 +13,14 @@ public class Ora {
 		this.ar = ar;
 		this.vizallo = vizallo;
 	}
+	
+	public Ora(String[] csvSor) {
+		this.megnevezes = csvSor[0];
+		this.tipus = OraTipusok.convertToEnum(csvSor[3]) ;
+		this.ar = Integer.parseInt(csvSor[1]) ;
+		this.vizallo = Boolean.parseBoolean(csvSor[2]) ;
+	}
+	
 
 	public String getMegnevezes() {
 		return megnevezes;

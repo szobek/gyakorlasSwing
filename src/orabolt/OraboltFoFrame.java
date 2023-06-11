@@ -58,9 +58,18 @@ public class OraboltFoFrame {
 	 * Create the application.
 	 */
 	public OraboltFoFrame() {
+	
+		
+		orak = new ArrayList<Ora>(); //adatok tárolása
+		listModel = new DefaultListModel<Ora>(); // eszköz a JListbe íráshoz
+ 
+
+		DbHandle.all(orak);
+		if(orak.size()==0) {
+			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
+			orak.add(ora);
+		}
 		initialize();
-		System.out.println(DbHandle.synchronAfterSave(orak));
-		DbHandle.getDataFromWatch(1);;
 	}
 
 	/**
@@ -76,6 +85,7 @@ public class OraboltFoFrame {
 				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kilép?", "Kilépés", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
 FileHandle.writeFile(orak);
+orak.clear();
 					System.exit(0);
 
 				}
@@ -124,12 +134,7 @@ FileHandle.writeFile(orak);
 		chbVizallo.setBounds(131, 197, 97, 23);
 		frame.getContentPane().add(chbVizallo);
 		
-		
-		orak = new ArrayList<Ora>(); //adatok tárolása
-		listModel = new DefaultListModel<Ora>(); // eszköz a JListbe íráshoz
-
-		ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
-		orak.add(ora);
+	
 		listModel.addElement(ora);
 
 		

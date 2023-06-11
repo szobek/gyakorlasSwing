@@ -17,6 +17,19 @@ public class DbHandle {
 	private static String dbUser = "root";
 	private static String dbPassword = "";
 	
+	private static Connection connect(List<Ora> lista) {
+		Connection con=null;
+		try {
+		
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt",dbUser, dbPassword);
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (Exception e) {
+			FileHandle.readFile(lista);
+			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez,ezért fájl olvasva: "+e.getMessage());
+		}
+		return con;
+	}
+	
 	private static Connection connect() {
 		Connection con=null;
 		try {
@@ -30,10 +43,12 @@ public class DbHandle {
 		return con;
 	}
 	
-	public static void all() {
-		Connection conn = connect();
+	public static void all(List<Ora> lista) {
+		Connection conn = connect(lista);
+		
 		Statement stmt;
 		try {
+			if(conn==null) {return;}
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery("select * from orak");
