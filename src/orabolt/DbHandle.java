@@ -15,13 +15,13 @@ import javax.swing.JOptionPane;
 
 public class DbHandle {
 	private static String dbUser = "root";
-	private static String dbPassword = "";
+	private static String dbPassword = "Ruander2023";
 	
 	private static Connection connect(List<Ora> lista) {
 		Connection con=null;
 		try {
 		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt",dbUser, dbPassword);
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt?autoReconnect=true&useSSL=false",dbUser, dbPassword);
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			FileHandle.readFile(lista);
@@ -34,7 +34,7 @@ public class DbHandle {
 		Connection con=null;
 		try {
 		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt",dbUser, dbPassword);
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt?autoReconnect=true&useSSL=false",dbUser, dbPassword);
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez: "+e.getMessage());
@@ -119,5 +119,31 @@ public class DbHandle {
 			e.printStackTrace();
 		}
 		return lista;
+	}
+	
+	
+	public static void ujOra(Ora ora) {
+		
+				
+			try (Connection kapcsolat = connect()){
+				
+				String sql = "INSERT INTO orak (name, tipus, ar, vizallo) VALUES (?,?,?,?)";
+				PreparedStatement ps = kapcsolat.prepareStatement(sql);
+				ps.setString(1, ora.getMegnevezes());
+				ps.setString(2, ora.getTipus().toString());
+				ps.setInt(3, ora.getAr());
+				ps.setBoolean(4, ora.isVizallo());
+						
+				ps.executeUpdate();
+	
+			} catch (SQLException e) {
+				
+				System.err.println("DB hiba! "+e.getMessage());
+				
+			} 
+			
+			
+			
+		
 	}
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -25,6 +26,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 
 public class OraboltFoFrame {
@@ -38,6 +40,11 @@ public class OraboltFoFrame {
 	private DefaultListModel<Ora> listModel;
 	private Ora ora;
 	private JButton btnFilter;
+	private JButton btnUjAdat;
+	private JComboBox comboBox;
+	private JSpinner spnAr;
+	private JCheckBox chbVizallo;
+	private DefaultTableModel tablaModel;
 
 
 
@@ -127,15 +134,16 @@ orak.clear();
 		frame.getContentPane().add(txtMegnevezes);
 		txtMegnevezes.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(OraTipusok.values()));
 		comboBox.setBounds(128, 103, 142, 22);
 		frame.getContentPane().add(comboBox);
 		
-		JSpinner spnAr = new JSpinner();
+		spnAr = new JSpinner();
 		spnAr.setBounds(128, 152, 142, 20);
 		frame.getContentPane().add(spnAr);
 		
-		JCheckBox chbVizallo = new JCheckBox("");
+		chbVizallo = new JCheckBox("");
 		chbVizallo.setBounds(131, 197, 97, 23);
 		frame.getContentPane().add(chbVizallo);
 		
@@ -154,7 +162,26 @@ orak.clear();
 		tblOraAdatok.setBounds(360, 260, 292, 169);
 		frame.getContentPane().add(tblOraAdatok);
 		
-		JButton btnUjAdat = new JButton("\u00DAj adat felvitele");
+		//beszúrás a táblázat getRowCount()-adik sorába
+		String[] oszlopnevek = {"Megnevezés","Típus","Ár", "VÍzállóság"};
+		tablaModel = new DefaultTableModel(null,oszlopnevek);
+
+		Object[] adatok = new Object[] { ora.getMegnevezes(), ora.getTipus(), ora.getAr(), ora.isVizallo()};
+		tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
+		tblOraAdatok.setModel(tablaModel);
+
+
+		
+		btnUjAdat = new JButton("\u00DAj adat felvitele");
+		btnUjAdat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				felvitel();
+			}
+
+
+
+		});
 		btnUjAdat.setBounds(128, 260, 142, 23);
 		frame.getContentPane().add(btnUjAdat);
 		
@@ -178,5 +205,31 @@ orak.clear();
 		btnFilter.setForeground(new Color(0, 102, 51));
 		btnFilter.setBounds(10, 427, 89, 23);
 		frame.getContentPane().add(btnFilter);
+	}
+
+	private void felvitel() {
+	
+		if (!txtMegnevezes.getText().isBlank()) {
+			
+			ora = new Ora(txtMegnevezes.getText(), (OraTipusok)comboBox.getSelectedItem(), (int)spnAr.getValue(), chbVizallo.isSelected());
+			orak.add(ora);
+			listModel.addElement(ora);
+
+			Object[] adatok = new Object[] { ora.getMegnevezes(), ora.getTipus(), ora.getAr(), ora.isVizallo()};
+			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
+			tblOraAdatok.setModel(tablaModel);
+
+			DbHandle.ujOra(ora);
+
+			txtMegnevezes.setText("");
+			spnAr.setValue(0);
+			chbVizallo.setSelected(false);
+
+			
+		} else {
+			JOptionPane.showMessageDialog(frame, "Megnevezés nem lehet üres", "Figyelmeztetés", JOptionPane.WARNING_MESSAGE);
+		}
+
+		
 	}
 }

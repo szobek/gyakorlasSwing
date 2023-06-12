@@ -1,1 +1,2 @@
 Festina;49000;true;karóra
+Tiktak4;2121;true;stopperóra
