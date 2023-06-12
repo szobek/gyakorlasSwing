@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -19,9 +20,12 @@ public class DbHandle {
 	
 	private static Connection connect(List<Ora> lista) {
 		Connection con=null;
+		Setting datas = new Setting();
+		Map<String, String> dbData = datas.getBeallitasok();
 		try {
 		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt",dbUser, dbPassword);
+			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			FileHandle.readFile(lista);
