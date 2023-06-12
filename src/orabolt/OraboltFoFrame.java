@@ -77,31 +77,6 @@ public class OraboltFoFrame {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
 			orak.add(ora);
 		}
-		Setting b = new Setting();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		System.out.println(b.getBeallitasok().get("DbUrl"));
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		initialize();
 	}
 

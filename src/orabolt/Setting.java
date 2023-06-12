@@ -7,7 +7,12 @@ public class Setting {
 	private Map<String, String> beallitasok = new HashMap<String, String>();
 
 	public Setting() {
-		this.beallitasok.put("DbUrl", "localhost");
+		beallitasok.put("DbUrl", "localhost");
+		beallitasok.put("DbPort","3306");
+		beallitasok.put("DbName","orabolt");
+		beallitasok.put("DbUser","root");
+		beallitasok.put("DbPsw","");
+		
 	}
 
 	public Map<String, String> getBeallitasok() {
