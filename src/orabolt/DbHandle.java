@@ -15,8 +15,6 @@ import javax.swing.JOptionPane;
 
 
 public class DbHandle {
-	private static String dbUser = "root";
-	private static String dbPassword = "";
 	
 	private static Connection connect(List<Ora> lista) {
 		Connection con=null;
@@ -36,10 +34,13 @@ public class DbHandle {
 	
 	private static Connection connect() {
 		Connection con=null;
+		Setting datas = new Setting();
+		Map<String, String> dbData = datas.getBeallitasok();
 		try {
-		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt",dbUser, dbPassword);
+			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
+			con.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez: "+e.getMessage());
 			System.exit(0);
@@ -60,9 +61,12 @@ public class DbHandle {
 			while(rs.next()) {
 				System.out.println(rs.getString("name"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	/**
@@ -78,6 +82,7 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -91,6 +96,7 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -104,6 +110,7 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name")+" | "+res.getInt("ar")+"Ft | "+(res.getBoolean("vizallo")?"Vízálló":"Nem vízálló"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -111,7 +118,6 @@ public class DbHandle {
 	
 	public static List<Ora> synchronAfterSave(List<Ora> lista) {
 		Connection conn = connect();
-		Statement stmt;
 		try {
 			PreparedStatement query = conn.prepareStatement("select * from orak");
 			ResultSet rs=query.executeQuery();
@@ -119,6 +125,7 @@ public class DbHandle {
 			while(rs.next()) {
 				lista.add(new Ora(rs.getString("name"),OraTipusok.convertToEnum(rs.getString("tipus")),rs.getInt("ar"),rs.getBoolean("vizallo")));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
