@@ -15,6 +15,9 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import com.mysql.fabric.xmlrpc.base.Param;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -74,6 +77,30 @@ public class OraboltFoFrame {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);		
 			orak.add(ora);
 		}
+		Setting b = new Setting();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		System.out.println(b.getBeallitasok().get("DbUrl"));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		initialize();
 	}
