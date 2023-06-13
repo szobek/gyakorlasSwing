@@ -10,8 +10,12 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -50,6 +54,8 @@ public class OraboltFoFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Setting.putDData();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
