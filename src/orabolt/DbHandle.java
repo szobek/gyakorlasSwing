@@ -8,12 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 
 
 
 public class DbHandle {
+	private static List<Ora> oraList;
+	private static Ora oraPeldany;
+
 	private static String dbUser = "root";
 	private static String dbPassword = "Ruander2023";
 	
@@ -43,22 +47,27 @@ public class DbHandle {
 		return con;
 	}
 	
-	public static void all(List<Ora> lista) {
+	public static List<Ora> all(List<Ora> lista) {
 		Connection conn = connect(lista);
-		
+
+		oraList = lista;
 		Statement stmt;
 		try {
-			if(conn==null) {return;}
+			if(conn==null) {return null;}
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery("select * from orak");
 			System.out.println("Csatlakozva");
 			while(rs.next()) {
 				System.out.println(rs.getString("name"));
+				oraPeldany = new Ora(rs.getString("name"), OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo"));		
+				oraList.add(oraPeldany);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return oraList;
 	}
 	
 	/**

@@ -44,7 +44,7 @@ public class Ora {
 
 	@Override
 	public String toString() {
-		return  megnevezes + " "+ ar + " " +tipus.toString() ;
+		return  megnevezes + " "+ ar + " " +tipus ;
 	}
 	
 	
