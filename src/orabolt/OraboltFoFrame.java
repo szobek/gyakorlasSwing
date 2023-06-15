@@ -157,6 +157,16 @@ public class OraboltFoFrame {
 
 		lstOraAdatok.setModel(listModel);
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		tblOraAdatok = new JTable();
 		tblOraAdatok.setBounds(360, 260, 292, 169);
 		frame.getContentPane().add(tblOraAdatok);
@@ -166,7 +176,7 @@ public class OraboltFoFrame {
 		tablaModel = new DefaultTableModel(null, oszlopnevek);
 
 		for (Ora oraPld : orak) {
-
+System.out.println(oraPld);
 			Object[] adatok = new Object[] { oraPld.getMegnevezes(), oraPld.getTipus(), oraPld.getAr(),
 					oraPld.isVizallo() ? "vízálló" : "nem vízálló" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
@@ -174,6 +184,20 @@ public class OraboltFoFrame {
 
 		tblOraAdatok.setModel(tablaModel);
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		btnUjAdat = new JButton("\u00DAj adat felvitele");
 		btnUjAdat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

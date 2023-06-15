@@ -61,7 +61,7 @@ public class DbHandle {
 			ResultSet rs = stmt.executeQuery("select * from orak");
 			System.out.println("Csatlakozva");
 			while (rs.next()) {
-				System.out.println(rs.getString("name"));
+				lista.add(new Ora(rs.getString("name"),  OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo")));
 			}
 			conn.close();
 		} catch (SQLException e) {
