@@ -10,11 +10,16 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import com.mysql.fabric.xmlrpc.base.Param;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -39,16 +44,22 @@ public class OraboltFoFrame {
 	private DefaultListModel<Ora> listModel;
 	private Ora ora;
 	private JButton btnFilter;
+
+	private JButton btnFirstElemDataShow;
+
 	private JButton btnUjAdat;
 	private JComboBox comboBox;
 	private JSpinner spnAr;
 	private JCheckBox chbVizallo;
 	private DefaultTableModel tablaModel;
 
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Setting.putDData();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -75,7 +86,6 @@ public class OraboltFoFrame {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);
 			orak.add(ora);
 		}
-
 		initialize();
 	}
 
@@ -202,6 +212,16 @@ public class OraboltFoFrame {
 		btnFilter.setForeground(new Color(0, 102, 51));
 		btnFilter.setBounds(10, 427, 89, 23);
 		frame.getContentPane().add(btnFilter);
+		
+		btnFirstElemDataShow = new JButton("Els\u0151 elem adata");
+		btnFirstElemDataShow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Ora data=orak.get(0);
+				JOptionPane.showMessageDialog(frame, data.toString(),"Adatok",JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		btnFirstElemDataShow.setBounds(139, 427, 142, 23);
+		frame.getContentPane().add(btnFirstElemDataShow);
 	}
 
 	private void felvitel() {
