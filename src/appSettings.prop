@@ -1,0 +1,5 @@
+DbPort=3306
+DbUrl=localhost
+DbName=orabolt
+DbUser=root
+DbPsw=

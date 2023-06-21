@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
-
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 
@@ -18,13 +16,13 @@ import javax.swing.JOptionPane;
 
 
 public class DbHandle {
-	
+
 	private static Connection connect(List<Ora> lista) {
 		Connection con=null;
 		Setting datas = new Setting();
 		Map<String, String> dbData = datas.getBeallitasok();
 		try {
-		
+
 			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
 			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +32,7 @@ public class DbHandle {
 		}
 		return con;
 	}
-	
+
 	private static Connection connect() {
 		Connection con=null;
 		Setting datas = new Setting();
@@ -50,10 +48,10 @@ public class DbHandle {
 		}
 		return con;
 	}
-	
+
 	public static void all(List<Ora> lista) {
 		Connection conn = connect(lista);
-		
+
 		Statement stmt;
 		try {
 			if(conn==null) {return;}
@@ -62,16 +60,16 @@ public class DbHandle {
 			ResultSet rs = stmt.executeQuery("select * from orak");
 			System.out.println("Csatlakozva");
 			while(rs.next()) {
-				System.out.println(rs.getString("name"));
+				lista.add(new Ora(rs.getString("name"),  OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo")));
 			}
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Lekér olcsó óákat,amik olcsóbbak mint a paraméterben átadott
 	 * @param ar
@@ -90,7 +88,7 @@ public class DbHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void getByString(String sql) {
 		Connection conn = connect();
 		try {
@@ -118,7 +116,7 @@ public class DbHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<Ora> synchronAfterSave(List<Ora> lista) {
 		Connection conn = connect();
 		try {
@@ -134,4 +132,29 @@ public class DbHandle {
 		}
 		return lista;
 	}
+	
+	public static void ujOra(Ora ora) {
+		
+		
+		try (Connection kapcsolat = connect()){
+			
+			String sql = "INSERT INTO orak (name, tipus, ar, vizallo) VALUES (?,?,?,?)";
+			PreparedStatement ps = kapcsolat.prepareStatement(sql);
+			ps.setString(1, ora.getMegnevezes());
+			ps.setString(2, ora.getTipus().toString());
+			ps.setInt(3, ora.getAr());
+			ps.setBoolean(4, ora.isVizallo());
+					
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			
+			System.err.println("DB hiba! "+e.getMessage());
+			
+		} 
+		
+		
+		
+	
+}
 }
