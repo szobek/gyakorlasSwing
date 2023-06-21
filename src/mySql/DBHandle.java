@@ -15,14 +15,14 @@ import orabolt.Ora;
 import orabolt.OraTipusok;
 
 public class DBHandle {
-	
+
 	private static final String dbConnection = "jdbc:mysql://127.0.0.1:3306/";
 	private static final String dbAutoReconnect = "?autoReconnect=true&useSSL=false";
 	private static String dbDatabase = "oraBolt";
 	private static String dbTable = "orak";
 	private static String dbUser = "root";
 	private static String dbPassword = "";
-	
+
 	private static Connection connect() {
 		Connection con=null;
 		try {
@@ -33,7 +33,7 @@ public class DBHandle {
 		}
 		return con;
 	}
-	
+
 	public static void all() {
 		Connection conn = connect();
 		Statement stmt;
@@ -48,7 +48,7 @@ public class DBHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void justCheap(int ar) {
 		Connection conn = connect();
 		try {
@@ -62,7 +62,7 @@ public class DBHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void getByString(String sql) {
 		Connection conn = connect();
 		try {
@@ -75,7 +75,7 @@ public class DBHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void getDataFromWatch(int id) {
 		Connection conn = connect();
 		try {
@@ -89,7 +89,7 @@ public class DBHandle {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<Ora> synchronAfterSave(List<Ora> lista) {
 		try {
 			lista.clear();
@@ -105,7 +105,7 @@ public class DBHandle {
 	 * @return kapcsolat létrejött vagy, új kapcsolatott próbál.
 	 * @throws SQLException
 	 */
-	public static Connection sqlKapcsolat() 
+	public static Connection sqlKapcsolat()
 	throws SQLException {
 		try {
 			return DriverManager.getConnection((dbConnection+dbDatabase+dbAutoReconnect), dbUser, dbPassword);
@@ -134,7 +134,7 @@ public class DBHandle {
 	 * @param generic
 	 * @throws SQLException
 	 */
-	public static void sqlKeszites(Ora generic) 
+	public static void sqlKeszites(Ora generic)
 	throws SQLException {
 		Connection conn = connect();
 		try {
@@ -163,7 +163,7 @@ public class DBHandle {
 	 * @throws SQLException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<Ora> sqlBeolvasas() 
+	public static List<Ora> sqlBeolvasas()
 	throws SQLException {
 		Connection conn = connect();
 		try {
@@ -176,7 +176,7 @@ public class DBHandle {
 				orak.add(new Ora(
 					resultSet.getString("name"),
 					OraTipusok.convertToEnum(resultSet.getString("tipus")),
-					resultSet.getInt("ar"),	
+					resultSet.getInt("ar"),
 					resultSet.getBoolean("vizallo")
 				));
 			}
@@ -188,16 +188,16 @@ public class DBHandle {
 		}
 	}
 
-	public static void sqlModositas() 
+	public static void sqlModositas()
 	throws SQLException {
 		// TODO Auto-generated method stub
 	}
 
-	public static void sqlTorles() 
+	public static void sqlTorles()
 	throws SQLException {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * ha elsõ meghivásra a kapcsolat nem jött létre akkor megprobálja
 	 * létrehozni a még nem létezõ adatbázis és táblázatott.
@@ -213,18 +213,18 @@ public class DBHandle {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Ha nem létezik még az adatbázis a Adatbázis-ben akkor létrehozza.
 	 * @throws SQLException
 	 */
-	private static void sqlAdatbazisKeszites() 
+	private static void sqlAdatbazisKeszites()
 	throws SQLException {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection((dbConnection+dbAutoReconnect), dbUser, dbPassword);
 			PreparedStatement update = conn.prepareStatement(
-				"CREATE DATABASE IF NOT EXISTS " + dbDatabase	
+				"CREATE DATABASE IF NOT EXISTS " + dbDatabase
 			);
 			update.executeUpdate();
 			update.clearParameters();
@@ -233,7 +233,7 @@ public class DBHandle {
 			throw new SQLException("Adatbázis kapcsolat sikertelen!");
 		}
 	}
-	
+
 	/**
 	 * ha még nem létezik a táblázat a Adatbázis-ban akkor létrehozza a táblázatott.
 	 * @return Adatbázis új kapcsolatott adja vissza.
@@ -245,16 +245,16 @@ public class DBHandle {
 			Connection con = DriverManager.getConnection((dbConnection+dbDatabase+dbAutoReconnect), dbUser, dbPassword);
 			PreparedStatement update = con.prepareStatement(
 				"CREATE TABLE IF NOT EXISTS " + dbTable + " ( " +
-				"ID int auto_increment unique,  " + 
+				"ID int auto_increment unique,  " +
 				"name varchar(50) not null, " +
 				"tipus varchar(10) not null, " +
 				"ar int, " +
-				"vizallo BOOLEAN default false"	+	 
-				")"		
+				"vizallo BOOLEAN default false"	+
+				")"
 			);
 			update.executeUpdate();
 			update.clearParameters();
-			return con; 
+			return con;
 		} catch (Exception e) {
 			throw new SQLException("Adatbázis kapcsolat sikertelen!");
 		}

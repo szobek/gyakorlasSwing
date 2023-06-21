@@ -1,37 +1,31 @@
 package orabolt;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
-
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import com.mysql.fabric.xmlrpc.base.Param;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class OraboltFoFrame {
 
@@ -59,8 +53,9 @@ public class OraboltFoFrame {
 	 */
 	public static void main(String[] args) {
 		Setting.putDData();
-		
+
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					OraboltFoFrame window = new OraboltFoFrame();
@@ -77,10 +72,10 @@ public class OraboltFoFrame {
 	 */
 	public OraboltFoFrame() {
 
-		orak = new ArrayList<Ora>(); // adatok t·rol·sa
-		listModel = new DefaultListModel<Ora>(); // eszkˆz a JListbe Ìr·shoz
-
-		orak = DbHandle.all(orak); // db beolvas·s is
+		orak = new ArrayList<>(); // adatok tÔøΩrolÔøΩsa
+		listModel = new DefaultListModel<>(); // eszkÔøΩz a JListbe ÔøΩrÔøΩsh
+		
+		DbHandle.all(orak); // db beolvasÔøΩs is
 
 		if (orak.size() == 0) {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);
@@ -99,10 +94,11 @@ public class OraboltFoFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				String[] valaszok = { "Igen", "Nem" };
-				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kilÈp?", "KilÈpÈs", JOptionPane.YES_NO_OPTION,
+				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kil√©p?", "Kil√©p√©s", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
 
 					FileHandle.writeFile(orak);
+					FileHandle.writeJSONFile(orak);
 					orak.clear();
 
 					System.exit(0);
@@ -111,8 +107,8 @@ public class OraboltFoFrame {
 			}
 		});
 		frame.setBounds(100, 100, 700, 500);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.setTitle("”rabolt");
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		frame.setTitle("√ìrabolt");
 		frame.setIconImage(img);
 		frame.getContentPane().setLayout(null);
 
@@ -155,6 +151,7 @@ public class OraboltFoFrame {
 		frame.getContentPane().add(chbVizallo);
 
 		for (Ora ora : orak) {
+			System.out.println(ora);
 			listModel.addElement(ora);
 		}
 
@@ -168,14 +165,14 @@ public class OraboltFoFrame {
 		tblOraAdatok.setBounds(360, 260, 292, 169);
 		frame.getContentPane().add(tblOraAdatok);
 
-		// besz˙r·s a t·bl·zat getRowCount()-adik sor·ba
-		String[] oszlopnevek = { "MegnevezÈs", "TÌpus", "¡r", "VÕz·llÛs·g" };
+		// beszÔøΩrÔøΩs a tÔøΩblÔøΩzat getRowCount()-adik sorÔøΩba
+		String[] oszlopnevek = { "Megnevez√©s", "T√≠pus", "√År", "V√≠z√°ll√≥s√°g" };
 		tablaModel = new DefaultTableModel(null, oszlopnevek);
 
 		for (Ora oraPld : orak) {
 
 			Object[] adatok = new Object[] { oraPld.getMegnevezes(), oraPld.getTipus(), oraPld.getAr(),
-					oraPld.isVizallo() ? "vÌz·llÛ" : "nem vÌz·llÛ" };
+					oraPld.isVizallo() ? "v√≠z√°ll√≥" : "nem v√≠z√°ll√≥" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
 		}
 
@@ -183,6 +180,7 @@ public class OraboltFoFrame {
 
 		btnUjAdat = new JButton("\u00DAj adat felvitele");
 		btnUjAdat.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				felvitel();
@@ -204,6 +202,7 @@ public class OraboltFoFrame {
 
 		btnFilter = new JButton("Sz\u0171r\u00E9s (olcv\u00F3bb mint 100000)");
 		btnFilter.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				List<Ora> szurt = orak.stream().filter((x) -> x.getAr() < 100000).toList();
 				System.out.println(szurt);
@@ -212,9 +211,10 @@ public class OraboltFoFrame {
 		btnFilter.setForeground(new Color(0, 102, 51));
 		btnFilter.setBounds(10, 427, 89, 23);
 		frame.getContentPane().add(btnFilter);
-		
+
 		btnFirstElemDataShow = new JButton("Els\u0151 elem adata");
 		btnFirstElemDataShow.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ora data=orak.get(0);
 				JOptionPane.showMessageDialog(frame, data.toString(),"Adatok",JOptionPane.INFORMATION_MESSAGE);
@@ -234,7 +234,7 @@ public class OraboltFoFrame {
 			listModel.addElement(ora);
 
 			Object[] adatok = new Object[] { ora.getMegnevezes(), ora.getTipus(), ora.getAr(),
-					ora.isVizallo() ? "vÌz·llÛ" : "nem vÌz·llÛ" };
+					ora.isVizallo() ? "v√≠z√°ll√≥" : "nem v√≠z√°ll√≥" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
 			tblOraAdatok.setModel(tablaModel);
 
@@ -245,7 +245,7 @@ public class OraboltFoFrame {
 			chbVizallo.setSelected(false);
 
 		} else {
-			JOptionPane.showMessageDialog(frame, "MegnevezÈs nem lehet ¸res", "FigyelmeztetÈs",
+			JOptionPane.showMessageDialog(frame, "Megnevez√©s nem lehet √ºres", "Figyelmeztet√©s",
 					JOptionPane.WARNING_MESSAGE);
 		}
 

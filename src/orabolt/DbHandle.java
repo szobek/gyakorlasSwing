@@ -11,39 +11,38 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-
-
-
-
 public class DbHandle {
 
 	private static Connection connect(List<Ora> lista) {
-		Connection con=null;
+		Connection con = null;
 		Setting datas = new Setting();
 		Map<String, String> dbData = datas.getBeallitasok();
 		try {
 
-			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
-			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
-			Class.forName("com.mysql.jdbc.Driver");
+			String connectionString = "jdbc:mysql://" + dbData.get("DbUrl") + ":" + dbData.get("DbPort") + "/"
+					+ dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString, dbData.get("DbUser"), dbData.get("DbPsw"));
+			//Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			FileHandle.readFile(lista);
-			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez,ezért fájl olvasva: "+e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"nem sikerï¿½lt kapcsolï¿½dni a db-hez,ezï¿½rt fï¿½jl olvasva: " + e.getMessage());
 		}
 		return con;
 	}
 
 	private static Connection connect() {
-		Connection con=null;
+		Connection con = null;
 		Setting datas = new Setting();
 		Map<String, String> dbData = datas.getBeallitasok();
 		try {
-			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
-			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
-			Class.forName("com.mysql.jdbc.Driver");
-		
+			String connectionString = "jdbc:mysql://" + dbData.get("DbUrl") + ":" + dbData.get("DbPort") + "/"
+					+ dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString, dbData.get("DbUser"), dbData.get("DbPsw"));
+			//Class.forName("com.mysql.jdbc.Driver");
+			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez: "+e.getMessage());
+			JOptionPane.showMessageDialog(null, "nem sikerï¿½lt kapcsolï¿½dni a db-hez: " + e.getMessage());
 			System.exit(0);
 		}
 		return con;
@@ -54,24 +53,27 @@ public class DbHandle {
 
 		Statement stmt;
 		try {
-			if(conn==null) {return;}
+			if (conn == null) {
+				return;
+			}
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery("select * from orak");
 			System.out.println("Csatlakozva");
-			while(rs.next()) {
-				lista.add(new Ora(rs.getString("name"),  OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo")));
+			while (rs.next()) {
+				lista.add(new Ora(rs.getString("name"), OraTipusok.convertToEnum(rs.getString("tipus")),
+						rs.getInt("ar"), rs.getBoolean("vizallo")));
 			}
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-
 	}
 
 	/**
-	 * Lekér olcsó óákat,amik olcsóbbak mint a paraméterben átadott
+	 * Lekï¿½r olcsï¿½ ï¿½ï¿½kat,amik olcsï¿½bbak mint a paramï¿½terben ï¿½tadott
+	 * 
 	 * @param ar
 	 */
 	public static void justCheap(int ar) {
@@ -79,7 +81,7 @@ public class DbHandle {
 		try {
 			PreparedStatement query = conn.prepareStatement("select * from orak where ar<?");
 			query.setInt(1, ar);
-			ResultSet res=query.executeQuery();
+			ResultSet res = query.executeQuery();
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
@@ -93,7 +95,7 @@ public class DbHandle {
 		Connection conn = connect();
 		try {
 			PreparedStatement query = conn.prepareStatement(sql);
-			ResultSet res=query.executeQuery();
+			ResultSet res = query.executeQuery();
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
@@ -102,14 +104,16 @@ public class DbHandle {
 			e.printStackTrace();
 		}
 	}
+
 	public static void getDataFromWatch(int id) {
 		Connection conn = connect();
 		try {
 			PreparedStatement query = conn.prepareStatement("select * from orak where id=?");
 			query.setInt(1, id);
-			ResultSet res=query.executeQuery();
+			ResultSet res = query.executeQuery();
 			while (res.next()) {
-				System.out.println(res.getString("name")+" | "+res.getInt("ar")+"Ft | "+(res.getBoolean("vizallo")?"Vízálló":"Nem vízálló"));
+				System.out.println(res.getString("name") + " | " + res.getInt("ar") + "Ft | "
+						+ (res.getBoolean("vizallo") ? "Vï¿½zï¿½llï¿½" : "Nem vï¿½zï¿½llï¿½"));
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -121,10 +125,11 @@ public class DbHandle {
 		Connection conn = connect();
 		try {
 			PreparedStatement query = conn.prepareStatement("select * from orak");
-			ResultSet rs=query.executeQuery();
+			ResultSet rs = query.executeQuery();
 			lista.clear();
-			while(rs.next()) {
-				lista.add(new Ora(rs.getString("name"),OraTipusok.convertToEnum(rs.getString("tipus")),rs.getInt("ar"),rs.getBoolean("vizallo")));
+			while (rs.next()) {
+				lista.add(new Ora(rs.getString("name"), OraTipusok.convertToEnum(rs.getString("tipus")),
+						rs.getInt("ar"), rs.getBoolean("vizallo")));
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -132,29 +137,25 @@ public class DbHandle {
 		}
 		return lista;
 	}
-	
+
 	public static void ujOra(Ora ora) {
 		
-		
-		try (Connection kapcsolat = connect()){
-			
+		try (Connection kapcsolat = connect();) {
+
 			String sql = "INSERT INTO orak (name, tipus, ar, vizallo) VALUES (?,?,?,?)";
 			PreparedStatement ps = kapcsolat.prepareStatement(sql);
 			ps.setString(1, ora.getMegnevezes());
 			ps.setString(2, ora.getTipus().toString());
 			ps.setInt(3, ora.getAr());
 			ps.setBoolean(4, ora.isVizallo());
-					
+
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
-			
-			System.err.println("DB hiba! "+e.getMessage());
-			
-		} 
-		
-		
-		
-	
-}
+
+			System.err.println("DB hiba! " + e.getMessage());
+
+		}
+
+	}
 }
