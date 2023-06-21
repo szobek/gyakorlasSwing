@@ -38,15 +38,18 @@ public class FileHandle {
 		try {
 			FileWriter fw = new FileWriter("orak.json");
 			
+			
 			gsonObj.toJson( lista,fw);
 			
 			fw.close();
 		} catch (JsonIOException | IOException e) {
-			// TODO Auto-generated catch block
+				
 			JOptionPane.showMessageDialog(null, "JSON generálás hiba: "+e.getMessage());
 		}
 		
 	}
+	
+	
 
 	public static void readFile(List<Ora> lista) {
 		String file = "orak.txt";

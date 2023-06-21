@@ -151,6 +151,7 @@ public class OraboltFoFrame {
 		frame.getContentPane().add(chbVizallo);
 
 		for (Ora ora : orak) {
+			System.out.println(ora);
 			listModel.addElement(ora);
 		}
 

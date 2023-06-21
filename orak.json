@@ -4,27 +4,31 @@
     "tipus": "KARORA",
     "ar": 110000,
     "id": 0,
-    "vizallo": true
+    "vizallo": true,
+    "vizalloText": " vízálló"
   },
   {
     "megnevezes": "Casio",
     "tipus": "KARORA",
     "ar": 34000,
     "id": 0,
-    "vizallo": true
+    "vizallo": true,
+    "vizalloText": " vízálló"
   },
   {
     "megnevezes": "Rolex",
     "tipus": "KARORA",
     "ar": 1000000,
     "id": 0,
-    "vizallo": true
+    "vizallo": true,
+    "vizalloText": " vízálló"
   },
   {
     "megnevezes": "Hamaee",
     "tipus": "EBRESZTOORA",
     "ar": 4400,
     "id": 0,
-    "vizallo": false
+    "vizallo": false,
+    "vizalloText": " nem vízálló"
   }
 ]

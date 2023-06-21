@@ -6,12 +6,14 @@ public class Ora {
 	private int ar;
 	private int id;
 	private boolean vizallo;
+	private String vizalloText;
 
 	public Ora(String megnevezes, OraTipusok tipus, int ar, boolean vizallo) {
 		this.megnevezes = megnevezes;
 		this.tipus = tipus;
 		this.ar = ar;
 		this.vizallo = vizallo;
+		this.vizalloText = ((vizallo)?" vízálló":" nem vízálló");
 	}
 
 	public Ora(String[] csvSor) {
@@ -19,6 +21,7 @@ public class Ora {
 		this.tipus = OraTipusok.convertToEnum(csvSor[3]) ;
 		this.ar = Integer.parseInt(csvSor[1]) ;
 		this.vizallo = Boolean.parseBoolean(csvSor[2]) ;
+		this.vizalloText = ((vizallo)?" vízálló":" nem vízálló");
 	}
 
 
@@ -45,9 +48,10 @@ public class Ora {
 	@Override
 	public String toString() {
 
-		return  megnevezes + " "+ ar + " " +tipus ;
+		return  megnevezes + " "+ ar + " " +tipus + vizalloText;
 
 	}
+
 
 
 
