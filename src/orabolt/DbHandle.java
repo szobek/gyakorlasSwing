@@ -41,7 +41,7 @@ public class DbHandle {
 			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
 			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
-			con.close();
+		
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez: "+e.getMessage());
 			System.exit(0);
