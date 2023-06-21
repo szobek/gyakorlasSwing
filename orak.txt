@@ -1,9 +1,4 @@
 Festina;110000;true;karóra
 Casio;34000;true;karóra
 Rolex;1000000;true;karóra
-Hama;4400;false;null
-TikTak;131313;true;falióra
-Tiktak2;2220;true;karóra
-TikTak3;23232;false;karóra
-Tiktak4;2121;true;stopperóra
-TikTak5;111110;false;ébresztőóra
+Hamaee;4400;false;ébresztőóra
