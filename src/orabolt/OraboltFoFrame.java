@@ -98,6 +98,7 @@ public class OraboltFoFrame {
 						JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
 
 					FileHandle.writeFile(orak);
+					FileHandle.writeJSONFile(orak);
 					orak.clear();
 
 					System.exit(0);

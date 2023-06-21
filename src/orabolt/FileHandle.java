@@ -3,10 +3,17 @@ package orabolt;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 
 public class FileHandle {
@@ -23,6 +30,22 @@ public class FileHandle {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static void writeJSONFile(List<Ora> lista) {
+		Gson gsonObj = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			FileWriter fw = new FileWriter("orak.json");
+			
+			gsonObj.toJson( lista,fw);
+			
+			fw.close();
+		} catch (JsonIOException | IOException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "JSON generálás hiba: "+e.getMessage());
+		}
+		
 	}
 
 	public static void readFile(List<Ora> lista) {

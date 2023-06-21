@@ -1,0 +1,30 @@
+[
+  {
+    "megnevezes": "Festina",
+    "tipus": "KARORA",
+    "ar": 110000,
+    "id": 0,
+    "vizallo": true
+  },
+  {
+    "megnevezes": "Casio",
+    "tipus": "KARORA",
+    "ar": 34000,
+    "id": 0,
+    "vizallo": true
+  },
+  {
+    "megnevezes": "Rolex",
+    "tipus": "KARORA",
+    "ar": 1000000,
+    "id": 0,
+    "vizallo": true
+  },
+  {
+    "megnevezes": "Hamaee",
+    "tipus": "EBRESZTOORA",
+    "ar": 4400,
+    "id": 0,
+    "vizallo": false
+  }
+]
