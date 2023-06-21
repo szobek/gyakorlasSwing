@@ -1,7 +1,7 @@
 package orabolt;
 
 public enum OraTipusok {
-	KARORA("kar髍a"), FALIORA("fali髍a"), EBRESZTOORA("閎reszt躞ra"), STOPPERORA("stopper髍a");
+	KARORA("kar贸ra"), FALIORA("fali贸ra"), EBRESZTOORA("茅breszt艖贸ra"), STOPPERORA("stopper贸ra");
 
 	private String type;
 
@@ -17,7 +17,7 @@ public enum OraTipusok {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return type;

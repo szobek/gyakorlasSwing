@@ -1,4 +1,4 @@
-NorbiW;9999;true;stopperóra
-Norbi2;8888;true;karóra
-TikTak5;121212;true;karóra
-UjOra;555;true;stopperóra
+Festina;110000;true;karóra
+Casio;34000;true;karóra
+Rolex;1000000;true;karóra
+Hamaee;4400;false;ébresztőóra

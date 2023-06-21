@@ -15,22 +15,22 @@ public interface AdatbazisMuveletek<T> {
 	 * MySql elérési címe és portja.
 	 */
 	public static final String sqlConnection = "jdbc:mysql://127.0.0.1:3306/";
-	
+
 	/**
 	 * Automatikus újracsatlakozás lehetõség beállítása.
 	 */
 	public static final String sqlAutoReconnect = "?autoReconnect=true&useSSL=false";
-	
+
 	/**
-	 * 
+	 *
 	 * @throws SQLException
 	 */
-	public Connection sqlKapcsolat() 
+	public Connection sqlKapcsolat()
 	throws SQLException;
-	
+
 	public void sqlKapcsolatBontas()
 	throws SQLException;
-	
+
 	/**
 	 * CRUD egyik müvelete a Készítés megvalósítása.
 	 * @param 		generic példányosított Osztály változó megadása paraméterkén.
@@ -38,7 +38,7 @@ public interface AdatbazisMuveletek<T> {
 	 */
 	public void sqlKeszites(T generic)
 	throws SQLException;
-	
+
 	/**
 	 * CRUD egyik müvelete a Beolvasas megvalósítása.
 	 * @return 		List példányosított adatszerkezetben visszaadja azokat az elemeket amik,
@@ -47,14 +47,14 @@ public interface AdatbazisMuveletek<T> {
 	 */
 	public List<T> sqlBeolvasas()
 	throws SQLException;
-	
+
 	/**
 	 * CRUD egyik müvelete a Módosítás megvalósítása.
 	 * @throws SQLException
 	 */
 	public void sqlModositas()
 	throws SQLException;
-	
+
 	/**
 	 * CRUD egyik müvelete a Törlés megvalósítása.
 	 * @throws SQLException
