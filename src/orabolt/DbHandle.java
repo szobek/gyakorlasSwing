@@ -7,25 +7,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 
 
 
-public class DbHandle {
-	private static List<Ora> oraList;
-	private static Ora oraPeldany;
 
-	private static String dbUser = "root";
-	private static String dbPassword = "Ruander2023";
-	
+public class DbHandle {
+
 	private static Connection connect(List<Ora> lista) {
 		Connection con=null;
+		Setting datas = new Setting();
+		Map<String, String> dbData = datas.getBeallitasok();
 		try {
-		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt?autoReconnect=true&useSSL=false",dbUser, dbPassword);
+
+			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			FileHandle.readFile(lista);
@@ -33,43 +32,44 @@ public class DbHandle {
 		}
 		return con;
 	}
-	
+
 	private static Connection connect() {
 		Connection con=null;
+		Setting datas = new Setting();
+		Map<String, String> dbData = datas.getBeallitasok();
 		try {
-		
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orabolt?autoReconnect=true&useSSL=false",dbUser, dbPassword);
+			String connectionString = "jdbc:mysql://"+dbData.get("DbUrl")+":"+dbData.get("DbPort")+"/"+dbData.get("DbName");
+			con = DriverManager.getConnection(connectionString,dbData.get("DbUser"), dbData.get("DbPsw"));
 			Class.forName("com.mysql.jdbc.Driver");
+		
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "nem sikerült kapcsolódni a db-hez: "+e.getMessage());
 			System.exit(0);
 		}
 		return con;
 	}
-	
-	public static List<Ora> all(List<Ora> lista) {
+
+	public static void all(List<Ora> lista) {
 		Connection conn = connect(lista);
 
-		oraList = lista;
 		Statement stmt;
 		try {
-			if(conn==null) {return null;}
+			if(conn==null) {return;}
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery("select * from orak");
 			System.out.println("Csatlakozva");
 			while(rs.next()) {
-				System.out.println(rs.getString("name"));
-				oraPeldany = new Ora(rs.getString("name"), OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo"));		
-				oraList.add(oraPeldany);
-
+				lista.add(new Ora(rs.getString("name"),  OraTipusok.convertToEnum(rs.getString("tipus")), rs.getInt("ar"), rs.getBoolean("vizallo")));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return oraList;
+
+
 	}
-	
+
 	/**
 	 * Lekér olcsó óákat,amik olcsóbbak mint a paraméterben átadott
 	 * @param ar
@@ -83,11 +83,12 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void getByString(String sql) {
 		Connection conn = connect();
 		try {
@@ -96,6 +97,7 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -109,14 +111,14 @@ public class DbHandle {
 			while (res.next()) {
 				System.out.println(res.getString("name")+" | "+res.getInt("ar")+"Ft | "+(res.getBoolean("vizallo")?"Vízálló":"Nem vízálló"));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<Ora> synchronAfterSave(List<Ora> lista) {
 		Connection conn = connect();
-		Statement stmt;
 		try {
 			PreparedStatement query = conn.prepareStatement("select * from orak");
 			ResultSet rs=query.executeQuery();
@@ -124,35 +126,35 @@ public class DbHandle {
 			while(rs.next()) {
 				lista.add(new Ora(rs.getString("name"),OraTipusok.convertToEnum(rs.getString("tipus")),rs.getInt("ar"),rs.getBoolean("vizallo")));
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return lista;
 	}
 	
-	
 	public static void ujOra(Ora ora) {
 		
-				
-			try (Connection kapcsolat = connect()){
-				
-				String sql = "INSERT INTO orak (name, tipus, ar, vizallo) VALUES (?,?,?,?)";
-				PreparedStatement ps = kapcsolat.prepareStatement(sql);
-				ps.setString(1, ora.getMegnevezes());
-				ps.setString(2, ora.getTipus().toString());
-				ps.setInt(3, ora.getAr());
-				ps.setBoolean(4, ora.isVizallo());
-						
-				ps.executeUpdate();
-	
-			} catch (SQLException e) {
-				
-				System.err.println("DB hiba! "+e.getMessage());
-				
-			} 
-			
-			
-			
 		
-	}
+		try (Connection kapcsolat = connect()){
+			
+			String sql = "INSERT INTO orak (name, tipus, ar, vizallo) VALUES (?,?,?,?)";
+			PreparedStatement ps = kapcsolat.prepareStatement(sql);
+			ps.setString(1, ora.getMegnevezes());
+			ps.setString(2, ora.getTipus().toString());
+			ps.setInt(3, ora.getAr());
+			ps.setBoolean(4, ora.isVizallo());
+					
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			
+			System.err.println("DB hiba! "+e.getMessage());
+			
+		} 
+		
+		
+		
+	
+}
 }
