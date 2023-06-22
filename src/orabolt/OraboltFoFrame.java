@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -154,13 +156,28 @@ public class OraboltFoFrame {
 
 		lstOraAdatok.setModel(listModel);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(360, 260, 292, 169);
+		frame.getContentPane().add(scrollPane);
+
 		tblOraAdatok = new JTable();
-		tblOraAdatok.setBounds(360, 260, 292, 169);
 		frame.getContentPane().add(tblOraAdatok);
+		scrollPane.setViewportView(tblOraAdatok);
 
 		// beszúrás a táblázat getRowCount()-adik sorába
+
 		String[] oszlopnevek = { "Megnevezés", "Típus", "Ár", "VÍzállóság" };
 		tablaModel = new DefaultTableModel(null, oszlopnevek);
+		tblOraAdatok.setModel(tablaModel);
+
+		// középre kiíratás:
+		DefaultTableCellRenderer crenderer = new DefaultTableCellRenderer();
+		crenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < tablaModel.getColumnCount(); i++) {
+
+			tblOraAdatok.getColumnModel().getColumn(i).setCellRenderer(crenderer);
+
+		}
 
 		for (Ora oraPld : orak) {
 
@@ -168,8 +185,6 @@ public class OraboltFoFrame {
 					oraPld.isVizallo() ? "vízálló" : "nem vízálló" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
 		}
-
-		tblOraAdatok.setModel(tablaModel);
 
 		btnUjAdat = new JButton("\u00DAj adat felvitele");
 		btnUjAdat.addActionListener(new ActionListener() {
