@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -19,7 +20,11 @@ import java.util.Properties;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import javax.swing.table.DefaultTableCellRenderer;
+
 import com.mysql.fabric.xmlrpc.base.Param;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -77,10 +82,10 @@ public class OraboltFoFrame {
 	 */
 	public OraboltFoFrame() {
 
-		orak = new ArrayList<Ora>(); // adatok t·rol·sa
-		listModel = new DefaultListModel<Ora>(); // eszkˆz a JListbe Ìr·shoz
+		orak = new ArrayList<Ora>(); // adatok t√°rol√°sa
+		listModel = new DefaultListModel<Ora>(); // eszk√∂z a JListbe √≠r√°shoz
 
-		orak = DbHandle.all(orak); // db beolvas·s is
+		orak = DbHandle.all(orak); // db beolvas√°s is
 
 		if (orak.size() == 0) {
 			ora = new Ora("Festina", OraTipusok.KARORA, 49000, true);
@@ -99,7 +104,7 @@ public class OraboltFoFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				String[] valaszok = { "Igen", "Nem" };
-				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kilÈp?", "KilÈpÈs", JOptionPane.YES_NO_OPTION,
+				if (JOptionPane.showOptionDialog(frame, "Biztos,hogy kil√©p?", "Kil√©p√©s", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, valaszok, valaszok[1]) == JOptionPane.YES_OPTION) {
 
 					FileHandle.writeFile(orak);
@@ -112,7 +117,7 @@ public class OraboltFoFrame {
 		});
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.setTitle("”rabolt");
+		frame.setTitle("√ìrabolt");
 		frame.setIconImage(img);
 		frame.getContentPane().setLayout(null);
 
@@ -164,22 +169,35 @@ public class OraboltFoFrame {
 
 		lstOraAdatok.setModel(listModel);
 
-		tblOraAdatok = new JTable();
-		tblOraAdatok.setBounds(360, 260, 292, 169);
-		frame.getContentPane().add(tblOraAdatok);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(360, 260, 292, 169);
+		frame.getContentPane().add(scrollPane);
 
-		// besz˙r·s a t·bl·zat getRowCount()-adik sor·ba
-		String[] oszlopnevek = { "MegnevezÈs", "TÌpus", "¡r", "VÕz·llÛs·g" };
+		tblOraAdatok = new JTable();
+		frame.getContentPane().add(tblOraAdatok);
+		scrollPane.setViewportView(tblOraAdatok);
+
+		// besz√∫r√°s a t√°bl√°zat getRowCount()-adik sor√°ba
+
+		String[] oszlopnevek = { "Megnevez√©s", "T√≠pus", "√År", "V√çz√°ll√≥s√°g" };
 		tablaModel = new DefaultTableModel(null, oszlopnevek);
+		tblOraAdatok.setModel(tablaModel);
+
+		// k√∂z√©pre ki√≠rat√°s:
+		DefaultTableCellRenderer crenderer = new DefaultTableCellRenderer();
+		crenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < tablaModel.getColumnCount(); i++) {
+
+			tblOraAdatok.getColumnModel().getColumn(i).setCellRenderer(crenderer);
+
+		}
 
 		for (Ora oraPld : orak) {
 
 			Object[] adatok = new Object[] { oraPld.getMegnevezes(), oraPld.getTipus(), oraPld.getAr(),
-					oraPld.isVizallo() ? "vÌz·llÛ" : "nem vÌz·llÛ" };
+					oraPld.isVizallo() ? "v√≠z√°ll√≥" : "nem v√≠z√°ll√≥" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
 		}
-
-		tblOraAdatok.setModel(tablaModel);
 
 		btnUjAdat = new JButton("\u00DAj adat felvitele");
 		btnUjAdat.addActionListener(new ActionListener() {
@@ -234,7 +252,7 @@ public class OraboltFoFrame {
 			listModel.addElement(ora);
 
 			Object[] adatok = new Object[] { ora.getMegnevezes(), ora.getTipus(), ora.getAr(),
-					ora.isVizallo() ? "vÌz·llÛ" : "nem vÌz·llÛ" };
+					ora.isVizallo() ? "v√≠z√°ll√≥" : "nem v√≠z√°ll√≥" };
 			tablaModel.insertRow(tblOraAdatok.getRowCount(), adatok);
 			tblOraAdatok.setModel(tablaModel);
 
@@ -245,7 +263,7 @@ public class OraboltFoFrame {
 			chbVizallo.setSelected(false);
 
 		} else {
-			JOptionPane.showMessageDialog(frame, "MegnevezÈs nem lehet ¸res", "FigyelmeztetÈs",
+			JOptionPane.showMessageDialog(frame, "Megnevez√©s nem lehet √ºres", "Figyelmeztet√©s",
 					JOptionPane.WARNING_MESSAGE);
 		}
 
